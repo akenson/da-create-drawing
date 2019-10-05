@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Addin Type="Plugin">
+  <ClassId>{ae57459d-6f25-491a-bf0a-b885f94863ce}</ClassId>
+  <ClientId>{ae57459d-6f25-491a-bf0a-b885f94863ce}</ClientId>
+  <DisplayName>CreateDrawingPlugin</DisplayName>
+  <Description>a CreateDrawingPlugin</Description>
+  <Assembly>CreateDrawingPlugin.dll</Assembly>
+</Addin>

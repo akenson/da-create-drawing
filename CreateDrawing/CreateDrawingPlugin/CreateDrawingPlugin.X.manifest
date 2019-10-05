@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <assemblyIdentity name="CreateDrawingPlugin" version="1.0.0.0"></assemblyIdentity>
+  <clrClass clsid="{ae57459d-6f25-491a-bf0a-b885f94863ce}" progid="CreateDrawingPlugin.PluginServer" threadingModel="Both" name="CreateDrawingPlugin.PluginServer"></clrClass>
+  <file name="CreateDrawingPlugin.dll" hashalg="SHA1"></file>
+</assembly>

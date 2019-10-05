@@ -1,0 +1,6 @@
+{
+  "runRule": "Create Proposal Drawing",
+  "inputFile": "../../inputFiles/Process Equipment/Workspace/Skid Packaging Layout.iam",
+  "projectFile": "../../inputFiles/Process Equipment/Skid Equipment.ipj",
+  "drawingDocName": "Skid Packing Layout"
+}
