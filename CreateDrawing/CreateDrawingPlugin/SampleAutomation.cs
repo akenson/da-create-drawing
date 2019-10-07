@@ -29,6 +29,7 @@ using Newtonsoft.Json;
 using File = System.IO.File;
 using Path = System.IO.Path;
 using Directory = System.IO.Directory;
+using DirectoryInfo = System.IO.DirectoryInfo;
 using Newtonsoft.Json.Linq;
 
 namespace CreateDrawingPlugin
@@ -63,6 +64,7 @@ namespace CreateDrawingPlugin
 
             string fullProjectPath = Path.GetFullPath(Path.Combine(currDir, projectFile));
 
+
             Console.WriteLine("fullProjectPath = " + fullProjectPath);
 
             DesignProject dp = inventorApplication.DesignProjectManager.DesignProjects.AddExisting(fullProjectPath);
@@ -71,21 +73,49 @@ namespace CreateDrawingPlugin
             Console.WriteLine("assemblyPath = " + assemblyPath);
             Document doc = inventorApplication.Documents.Open(assemblyPath);
 
-            RunRule(doc, rule);
+            //RunRule(doc, rule);
+            CreateDrawing(doc);
 
             // Drawing will be the last one created
             int docCount = inventorApplication.Documents.Count;
             Document lastDoc = inventorApplication.Documents[docCount];
             LogTrace("lastDoc: " + lastDoc.DisplayName);
-            string dirPath = System.IO.Path.GetDirectoryName(doc.FullDocumentName);
-            string drawingPath = dirPath + "/" + drawingDocName + ".idw";
+            
+            string drawingPath = Directory.GetCurrentDirectory() + "/result.idw";
+            LogTrace("saving drawing: " + drawingPath);
             lastDoc.SaveAs(drawingPath, false);
             SaveAsPdf(lastDoc, drawingDocName);
         }
 
+        private void CreateDrawing(Document doc)
+        {
+            double viewScale = 0.05;
+            string templateLoc = "/Autodesk/Skid Packaging Layout.idw";
+
+            // This gets the working directory of the Assembly
+            DirectoryInfo parentDir = Directory.GetParent(Path.GetFullPath(doc.FullFileName));
+
+            // Need one more directory up to get to the templates
+            DirectoryInfo baseDir = Directory.GetParent(parentDir.FullName);
+
+            string templateFile = baseDir.FullName + templateLoc;
+
+            LogTrace("Adding Drawing template: " + templateFile);
+            DrawingDocument drawingDoc = (DrawingDocument) inventorApplication.Documents.Add(DocumentTypeEnum.kDrawingDocumentObject, templateFile);
+            Sheet sheet = drawingDoc.Sheets[1];
+
+            Point2d point1 = inventorApplication.TransientGeometry.CreatePoint2d(80, 40); // front view
+            Point2d point2 = inventorApplication.TransientGeometry.CreatePoint2d(21, 29); // top view
+
+            LogTrace("Adding Drawing Views...");
+            DrawingView baseView = sheet.DrawingViews.AddBaseView((_Document)doc, point1, viewScale, ViewOrientationTypeEnum.kFrontViewOrientation, DrawingViewStyleEnum.kHiddenLineDrawingViewStyle, "My View");
+            DrawingView projectedView = sheet.DrawingViews.AddProjectedView(baseView, point2, DrawingViewStyleEnum.kShadedDrawingViewStyle, viewScale);
+        }
+
+
         private void SaveAsPdf(Document doc, string fileName)
         {
-            string dirPath = System.IO.Path.GetDirectoryName(doc.FullDocumentName);
+            string dirPath = Directory.GetCurrentDirectory();
             TranslatorAddIn oPDF = null;
 
             foreach (ApplicationAddIn item in inventorApplication.ApplicationAddIns)
@@ -150,6 +180,7 @@ namespace CreateDrawingPlugin
             {
                 if (addin != null)
                 {
+                    LogTrace("Running rule: " + rule);
                     var iLogicAutomation = addin.Automation;
                     iLogicAutomation.RunRule(doc, rule);
                 }

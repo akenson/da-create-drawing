@@ -86,7 +86,7 @@ namespace Interaction
                             new Parameter
                             {
                                 Verb = Verb.Put,
-                                LocalName = "result.dwg",
+                                LocalName = "result.idw",
                                 Description = "Resulting drawing file",
                             }
                         },
@@ -95,7 +95,7 @@ namespace Interaction
                             new Parameter
                             {
                                 Verb = Verb.Put,
-                                LocalName = "pdf.dwg",
+                                LocalName = "result.pdf",
                                 Description = "Resulting pdf file",
                             }
                         }

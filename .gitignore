@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+CreateDrawing/Interaction/appsettings.json
+inputFiles/
+Output/
+
 .DS_Store
 *.dll
 Thumbs.db
