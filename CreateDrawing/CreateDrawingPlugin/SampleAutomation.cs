@@ -54,7 +54,7 @@ namespace CreateDrawingPlugin
             //string inputPath = System.IO.Path.Combine(currDir, @"../../inputFiles", "params.json");
             //Dictionary<string, string> options = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(inputPath));
 
-            Dictionary<string, string> options = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText("inputParams.json"));
+            Dictionary<string, string> options = JsonConvert.DeserializeObject<Dictionary<string, string>>(System.IO.File.ReadAllText(Path.Combine(currDir,"inputParams.json")));
             string inputFile = options["inputFile"];
             string projectFile = options["projectFile"];
             string rule = options["runRule"];
