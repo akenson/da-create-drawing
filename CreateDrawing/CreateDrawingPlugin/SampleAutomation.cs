@@ -84,13 +84,17 @@ namespace CreateDrawingPlugin
             string drawingPath = Directory.GetCurrentDirectory() + "/result.idw";
             LogTrace("saving drawing: " + drawingPath);
             lastDoc.SaveAs(drawingPath, false);
+            LogTrace("saving as pdf: " + drawingDocName);
             SaveAsPdf(lastDoc, drawingDocName);
         }
 
         private void CreateDrawing(Document doc)
         {
             double viewScale = 0.05;
-            string templateLoc = "/Autodesk/Skid Packaging Layout.idw";
+
+            // Update this for your drawing path, could add this to the web UI
+            // Change file name and update all IDW files and WorkItem args to support DWG
+            string templateLoc = "<your drawing path here>"; // "/Drawings/Drawing.idw"
 
             // This gets the working directory of the Assembly
             DirectoryInfo parentDir = Directory.GetParent(Path.GetFullPath(doc.FullFileName));
@@ -102,6 +106,8 @@ namespace CreateDrawingPlugin
 
             LogTrace("Adding Drawing template: " + templateFile);
             DrawingDocument drawingDoc = (DrawingDocument) inventorApplication.Documents.Add(DocumentTypeEnum.kDrawingDocumentObject, templateFile);
+
+            LogTrace("Getting the first sheet");
             Sheet sheet = drawingDoc.Sheets[1];
 
             Point2d point1 = inventorApplication.TransientGeometry.CreatePoint2d(80, 40); // front view
